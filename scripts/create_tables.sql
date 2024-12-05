@@ -1,23 +1,42 @@
-CREATE TABLE marque (
-    id_marque INT PRIMARY KEY,
-    nom_marque VARCHAR(50) NOT NULL
+-- Table client
+CREATE TABLE client (
+    id_client INT PRIMARY KEY,
+    nom_client VARCHAR(45) NOT NULL,
+    age INT NOT NULL,
+    cp_client INT NOT NULL
 );
 
-CREATE TABLE boisson (
-    id_boisson INT PRIMARY KEY,
-    nom_boisson VARCHAR(100) NOT NULL,
-    id_marque INT NOT NULL,
-    FOREIGN KEY (id_marque) REFERENCES marque(id_marque)
+-- Table paye
+CREATE TABLE paye (
+    id_client INT NOT NULL,
+    jour DATE NOT NULL,
+    PRIMARY KEY (id_client, jour),
+    FOREIGN KEY (id_client) REFERENCES client(id_client)
 );
 
-CREATE TABLE ingredient (
-    id_ingredient INT PRIMARY KEY,
-    nom_ingredient VARCHAR(50) NOT NULL
+-- Table achete
+CREATE TABLE achete (
+    id_client INT NOT NULL,
+    id_focaccia INT NOT NULL,
+    jour DATE NOT NULL,
+    PRIMARY KEY (id_client, id_focaccia, jour),
+    FOREIGN KEY (id_client) REFERENCES client(id_client),
+    FOREIGN KEY (id_focaccia) REFERENCES focaccia(id_focaccia)
 );
 
-CREATE TABLE focaccia (
-    id_focaccia INT PRIMARY KEY,
-    nom_focaccia VARCHAR(100) NOT NULL,
-    prix DECIMAL(5,2) NOT NULL,
-    ingredients TEXT NOT NULL
+-- Table menu
+CREATE TABLE menu (
+    id_menu INT PRIMARY KEY,
+    nom_menu VARCHAR(45) NOT NULL,
+    prix_menu FLOAT NOT NULL
 );
+
+-- Table contient
+CREATE TABLE contient (
+    id_menu INT NOT NULL,
+    id_boisson INT NOT NULL,
+    PRIMARY KEY (id_menu, id_boisson),
+    FOREIGN KEY (id_menu) REFERENCES menu(id_menu),
+    FOREIGN KEY (id_boisson) REFERENCES boisson(id_boisson)
+);
+
